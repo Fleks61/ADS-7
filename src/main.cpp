@@ -1,62 +1,53 @@
+// Copyright 2025
 #include <iostream>
 #include <random>
 
 #include "train.h"
 
-using namespace std;
-
-void experimentAllOff(int n)
-{
+void experimentAllOff(int n) {
     Train train;
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         train.addCar(false);
     }
 
     train.getLength();
 
-    cout << n << " " << train.getOpCount() << endl;
+    std::cout << n << " " << train.getOpCount() << std::endl;
 }
 
-void experimentAllOn(int n)
-{
+void experimentAllOn(int n) {
     Train train;
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         train.addCar(true);
     }
 
     train.getLength();
 
-    cout << n << " " << train.getOpCount() << endl;
+    std::cout << n << " " << train.getOpCount() << std::endl;
 }
 
-void experimentRandom(int n)
-{
+void experimentRandom(int n) {
     Train train;
 
-    random_device rd;
+    std::random_device rd;
 
-    mt19937 gen(rd());
+    std::mt19937 gen(rd());
 
-    uniform_int_distribution<> dist(0, 1);
+    std::uniform_int_distribution<> dist(0, 1);
 
-    for (int i = 0; i < n; i++)
-    {
+    for (int i = 0; i < n; i++) {
         train.addCar(dist(gen));
     }
 
     train.getLength();
 
-    cout << n << " " << train.getOpCount() << endl;
+    std::cout << n << " " << train.getOpCount() << std::endl;
 }
 
-int main()
-{
-    for (int n = 2; n <= 100; n += 10)
-    {
+int main() {
+    for (int n = 2; n <= 100; n += 10) {
         experimentAllOff(n);
 
         experimentAllOn(n);
