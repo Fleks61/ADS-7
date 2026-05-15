@@ -67,7 +67,7 @@ int Train::getLength() {
         do {
             current = current->next;
 
-            countOp += 2;
+            countOp++;
 
             distance++;
         } while (!current->light);
@@ -77,7 +77,7 @@ int Train::getLength() {
         for (int i = 0; i < distance; i++) {
             current = current->prev;
 
-            countOp += 2;
+            countOp++;
         }
 
         if (!current->light) {
