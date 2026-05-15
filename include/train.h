@@ -1,68 +1,37 @@
 // Copyright 2022 NNTU-CS
-#include <iostream>
-#include <random>
-#include "train.h"
+#ifndef INCLUDE_TRAIN_H_
+#define INCLUDE_TRAIN_H_
 
-using namespace std;
+class Train {
+private:
+    struct Car {
+        bool light;
 
-void experimentAllOff(int n)
-{
-    Train train;
+        Car* next;
+        Car* prev;
 
-    for (int i = 0; i < n; i++)
-    {
-        train.addCar(false);
-    }
+        explicit Car(bool state = false) {
+            light = state;
 
-    train.getLength();
+            next = nullptr;
+            prev = nullptr;
+        }
+    };
 
-    cout << n << " " << train.getOpCount() << endl;
-}
+    Car* first;
 
-void experimentAllOn(int n)
-{
-    Train train;
+    int countOp;
 
-    for (int i = 0; i < n; i++)
-    {
-        train.addCar(true);
-    }
+public:
+    Train();
 
-    train.getLength();
+    ~Train();
 
-    cout << n << " " << train.getOpCount() << endl;
-}
+    void addCar(bool light);
 
-void experimentRandom(int n)
-{
-    Train train;
+    int getLength();
 
-    random_device rd;
+    int getOpCount() const;
+};
 
-    mt19937 gen(rd());
-
-    uniform_int_distribution<> dist(0, 1);
-
-    for (int i = 0; i < n; i++)
-    {
-        train.addCar(dist(gen));
-    }
-
-    train.getLength();
-
-    cout << n << " " << train.getOpCount() << endl;
-}
-
-int main()
-{
-    for (int n = 2; n <= 100; n += 10)
-    {
-        experimentAllOff(n);
-
-        experimentAllOn(n);
-
-        experimentRandom(n);
-    }
-
-    return 0;
-}
+#endif  
