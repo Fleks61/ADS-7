@@ -1,9 +1,9 @@
 // Copyright 2025
+
 #include "train.h"
 
 Train::Train() {
     first = nullptr;
-
     countOp = 0;
 }
 
@@ -16,9 +16,7 @@ Train::~Train() {
 
     while (current != first) {
         Car* temp = current;
-
         current = current->next;
-
         delete temp;
     }
 
@@ -26,28 +24,29 @@ Train::~Train() {
 }
 
 void Train::addCar(bool light) {
-    Car* newCar = new Car(light);
+    Car* newCar = new Car;
+
+    newCar->light = light;
 
     if (first == nullptr) {
         first = newCar;
 
         first->next = first;
         first->prev = first;
+
+        return;
     }
-    else {
-        Car* last = first->prev;
 
-        last->next = newCar;
+    Car* last = first->prev;
 
-        newCar->prev = last;
+    newCar->next = first;
+    newCar->prev = last;
 
-        newCar->next = first;
-
-        first->prev = newCar;
-    }
+    last->next = newCar;
+    first->prev = newCar;
 }
 
-int Train::getOpCount() const {
+int Train::getOpCount() {
     return countOp;
 }
 
@@ -58,19 +57,31 @@ int Train::getLength() {
 
     countOp = 0;
 
-    int length = 1;
+    Car* current = first;
 
-    const Car* current = first->next;
+    current->light = true;
 
-    countOp++;
+    while (true) {
+        int distance = 0;
 
-    while (current != first) {
-        current = current->next;
+        do {
+            current = current->next;
 
-        length++;
+            countOp += 2;
 
-        countOp++;
+            distance++;
+        } while (!current->light);
+
+        current->light = false;
+
+        for (int i = 0; i < distance; i++) {
+            current = current->prev;
+
+            countOp += 2;
+        }
+
+        if (!current->light) {
+            return distance;
+        }
     }
-
-    return length;
 }
